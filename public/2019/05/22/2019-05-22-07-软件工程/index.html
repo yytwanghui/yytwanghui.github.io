@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/google.jpeg?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/google.jpeg?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/google.jpeg?v=7.1.1">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文是一篇关于软件需求建模的文章">
+<meta name="keywords" content="需求建模,流程,行为,模式,Web应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件工程-07_需求建模：流程、行为、模式和Web应用">
+<meta property="og:url" content="http://yoursite.com/2019/05/22/2019-05-22-07-软件工程/index.html">
+<meta property="og:site_name" content="王辉的blog">
+<meta property="og:description" content="本文是一篇关于软件需求建模的文章">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/05/22/5ce4b66a2918a47029.jpg">
+<meta property="og:updated_time" content="2020-09-11T10:59:20.187Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="软件工程-07_需求建模：流程、行为、模式和Web应用">
+<meta name="twitter:description" content="本文是一篇关于软件需求建模的文章">
+<meta name="twitter:image" content="https://i.loli.net/2019/05/22/5ce4b66a2918a47029.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/05/22/2019-05-22-07-软件工程/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>软件工程-07_需求建模：流程、行为、模式和Web应用 | 王辉的blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/wanghui2019"><img style="position: absolute; top: 0; right: 0; border: 0;" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王辉的blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-标签">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-分类">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/22/2019-05-22-07-软件工程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王辉">
+      <meta itemprop="description" content="不知名程序猿">
+      <meta itemprop="image" content="/images/one.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王辉的blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">软件工程-07_需求建模：流程、行为、模式和Web应用
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-22 10:54:21" itemprop="dateCreated datePublished" datetime="2019-05-22T10:54:21Z">2019-05-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-09-11 10:59:20" itemprop="dateModified" datetime="2020-09-11T10:59:20Z">2020-09-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <center><font size="4" color="red">本文是一篇关于软件需求建模的文章</font></center>
+
+<a id="more"></a>
+<h1 id="需求建模：流程、行为、模式和Web应用"><a href="#需求建模：流程、行为、模式和Web应用" class="headerlink" title="需求建模：流程、行为、模式和Web应用"></a>需求建模：流程、行为、模式和Web应用</h1><h2 id="需求建模策略"><a href="#需求建模策略" class="headerlink" title="需求建模策略"></a>需求建模策略</h2><p>结构化分析：</p>
+<ul>
+<li>考虑数据和处理的分析建模方法，数据可作为独立实体转换。数据对象模型的方式定义了它们的属性和关系，表明当数据对象通过系统时如何转换数据。</li>
+</ul>
+<p>面向对象分析：</p>
+<ul>
+<li>专注于定义类以及影响客户需求的类之间的协作方式</li>
+</ul>
+<h2 id="面向数建模"><a href="#面向数建模" class="headerlink" title="面向数建模"></a>面向数建模</h2><p>数据流图(DFD)</p>
+<ul>
+<li>输入-处理-输出，流入软件的数据对象，经由处理元素变换，最后以结果数据对象的形式流出软件。</li>
+</ul>
+<p>表达方式：</p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">带标记的箭头表示数据或控制对象</span><br><span class="line">圆圈(泡泡)表示转换，0层是系统，其它层是动名词结合</span><br><span class="line">名词是外部实体，用方框表示</span><br><span class="line">数据存储，双横线表示</span><br></pre></td></tr></table></figure>
+<ul>
+<li>分层：0层，1层，2层……</li>
+</ul>
+<h4 id="创建数据流模型"><a href="#创建数据流模型" class="headerlink" title="创建数据流模型"></a>创建数据流模型</h4><p>数据流图创建方式：</p>
+<ul>
+<li><p>1.第0层的数据流图应将软件或者系统描述成一个泡泡</p>
+</li>
+<li><p>2.应仔细标记主要的输入和输出</p>
+</li>
+<li><p>3.通过把选定的处理、数据对象和数据存储分离为下一层表示而开始精化过程</p>
+</li>
+<li><p>4.应使用有意义的名称标记所有的箭头和泡泡</p>
+</li>
+<li><p>5.当从一个层转到另一个层时要保持信息流连续性</p>
+</li>
+<li><p>6.一次精化一个泡泡</p>
+</li>
+</ul>
+<p>原则：</p>
+<ul>
+<li><p>逐渐精华泡泡</p>
+</li>
+<li><p>保持信息流的连续性</p>
+</li>
+</ul>
+<h4 id="创建控制流模型"><a href="#创建控制流模型" class="headerlink" title="创建控制流模型"></a>创建控制流模型</h4><p>事件驱动的问题需要使用控制流建模</p>
+<h4 id="控制规格说明"><a href="#控制规格说明" class="headerlink" title="控制规格说明"></a>控制规格说明</h4><p>Control Specification CSPEC</p>
+<ul>
+<li>状态图，下章节会重点讲解</li>
+</ul>
+<h4 id="处理规格说明"><a href="#处理规格说明" class="headerlink" title="处理规格说明"></a>处理规格说明</h4><p>Process Specification,PSPEC</p>
+<h2 id="生成行为模型"><a href="#生成行为模型" class="headerlink" title="生成行为模型"></a>生成行为模型</h2><p>目的：将静态元素转换为系统或产品的动态行为</p>
+<p>生成模型的步骤</p>
+<ul>
+<li><p>1.评估所有的用例，以保证安全理解系统内的交互顺序</p>
+</li>
+<li><p>2.识别驱动交互顺序的事件，并理解这些事件如何与特定的对象相互关联</p>
+</li>
+<li><p>3.为每个用例生成序列</p>
+</li>
+<li><p>4.创建系统状态图</p>
+<ul>
+<li>5.评审行为模型以验证准确性和一致性</li>
+</ul>
+</li>
+</ul>
+<h4 id="识别用例事件"><a href="#识别用例事件" class="headerlink" title="识别用例事件"></a>识别用例事件</h4><p>用例表现了涉及参与者和系统的活动顺序。一般而言，只要系统和参与者之间交换了信息就发生事件。事件可以理解为一个动作或行为，例如，输入密码是个事件，商品加入购物车是个事件，吃饭是个事件。一旦找到了事件，要做的是将其分配到所涉及的对象。对象负责生成事件</p>
+<h4 id="状态表现"><a href="#状态表现" class="headerlink" title="状态表现"></a>状态表现</h4><p>行为建模必须考虑的两种不同的状态描述</p>
+<ul>
+<li><p>1.系统执行其功能时每个类的状态</p>
+</li>
+<li><p>2.系统执行其功能时从外部观察到的系统状态</p>
+</li>
+</ul>
+<p>类状态具有被动和主动两种特征</p>
+<ul>
+<li><p>1.被动状态只是某个对象所有属性的当前状态</p>
+</li>
+<li><p>2.一个对象的主动状态指的是对象进行持续变换或处理时的当前状态</p>
+</li>
+</ul>
+<p>以下讨论两种不同的行为表现形式，第一种显示一个类如何改变基于外部事件的状态，第二种以事件函数的形式显示软件的行为</p>
+<ul>
+<li><p><strong>分析类的状态图</strong>。UML状态图就是一种行为模型，该图为每个类呈现了主动状态和导致这些主动状态变化的事件</p>
+</li>
+<li><p><strong>顺序图</strong>。该图表明事件如何引发从一个对象到一个对象的转移。一旦通过检查用例确认了事件，建模人员就创建了一个顺序图，即用时间函数表现如何引发事件从一个对象流到另一个对象</p>
+</li>
+</ul>
+<p>UML建模工具</p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ArgoUML  <span class="code">`argouml.tigris.org`</span></span><br><span class="line">Enterprise Architect  <span class="code">`www.sparxsystems.com.au`</span></span><br><span class="line">PowerDesigner  <span class="code">`www.sybase.com`</span></span><br><span class="line">Rational Rose   <span class="code">`www.ibm.com/software/retional`</span></span><br><span class="line">System Architect  <span class="code">`www.popkin.com`</span></span><br><span class="line">UML Studio  <span class="code">`www.pragsoft.com`</span></span><br><span class="line">Visio  <span class="code">`www.mocrosoft.com`</span></span><br><span class="line">Visual UML <span class="code">`www.visualuml.com`</span></span><br></pre></td></tr></table></figure>
+<h2 id="需求建模的模式"><a href="#需求建模的模式" class="headerlink" title="需求建模的模式"></a>需求建模的模式</h2><h4 id="发现分析模式"><a href="#发现分析模式" class="headerlink" title="发现分析模式"></a>发现分析模式</h4><p>需求模型由各种元素组成</p>
+<ul>
+<li><p>基于场景(用例)</p>
+</li>
+<li><p>基于数据(数据模型)</p>
+</li>
+<li><p>基于类</p>
+</li>
+<li><p>基于流和行为</p>
+</li>
+</ul>
+<p>需求模型中最基本的元素是用例。语义分析模式(semantic analysis pattern,SAP)是描述了一小套连贯用例，这些用例一起描述了通用应用的基础。</p>
+<h4 id="需求模式举例"><a href="#需求模式举例" class="headerlink" title="需求模式举例"></a>需求模式举例</h4><p>不再分析</p>
+<h2 id="Web应用系统的需求建模"><a href="#Web应用系统的需求建模" class="headerlink" title="Web应用系统的需求建模"></a>Web应用系统的需求建模</h2><h4 id="如何分析"><a href="#如何分析" class="headerlink" title="如何分析"></a>如何分析</h4><p>Web应用需求建模的重视程度依据以下因素</p>
+<ul>
+<li><p>1.Web应用的规模和复杂性的增长</p>
+</li>
+<li><p>2.相关利益者的人数(识别需求冲突)</p>
+</li>
+<li><p>3.Web应用团队的人数</p>
+</li>
+<li><p>4.一起工作以前该Web应用团队成员的级别</p>
+</li>
+<li><p>5.组织成功的程度直接依赖Web应用的成功</p>
+</li>
+</ul>
+<h4 id="需求建模的输入"><a href="#需求建模的输入" class="headerlink" title="需求建模的输入"></a>需求建模的输入</h4><p>需求建模输入的表现形式</p>
+<ul>
+<li><p>自然语言描述</p>
+</li>
+<li><p>概要大纲</p>
+</li>
+<li><p>草图</p>
+</li>
+<li><p>其它非正式形式</p>
+</li>
+</ul>
+<h4 id="需求建模的输出"><a href="#需求建模的输出" class="headerlink" title="需求建模的输出"></a>需求建模的输出</h4><p>5种主要的模型类型</p>
+<ul>
+<li><p>内容模型：包括文本、图表和图像、视频和音频数据</p>
+</li>
+<li><p>交互模式：描述了用户与Web应用系统采用了哪种交互方式</p>
+</li>
+<li><p>功能模式：定义了将用于Web应用系统内容并描述其他处理功能的操作，这些处理功能不依赖于内容却是最终用户所必需的</p>
+</li>
+<li><p>导航模式：为Web应用系统定义所有导航策略</p>
+</li>
+<li><p>配置模型：描述Web应用系统所在的环境和基础设施</p>
+</li>
+</ul>
+<h4 id="Web应用系统内容建模"><a href="#Web应用系统内容建模" class="headerlink" title="Web应用系统内容建模"></a>Web应用系统内容建模</h4><p>内容对象是呈现给最终用户具有汇聚信息的所有条目</p>
+<p>数据树分析内容对象图示：</p>
+<p><img src="https://i.loli.net/2019/05/22/5ce4b66a2918a47029.jpg" alt></p>
+<h4 id="Web应用系统的交互模型"><a href="#Web应用系统的交互模型" class="headerlink" title="Web应用系统的交互模型"></a>Web应用系统的交互模型</h4><p>交互模型可以由下面的一种或多种组成：</p>
+<ul>
+<li><p>1.用例</p>
+</li>
+<li><p>2.顺序图</p>
+</li>
+<li><p>3.状态图</p>
+</li>
+<li><p>4.用户界面原型</p>
+</li>
+</ul>
+<p>一般使用用例就行，对于复杂的情况需要使用顺序图和状态图，甚至用户界面原型</p>
+<h4 id="Web应用系统的功能模型"><a href="#Web应用系统的功能模型" class="headerlink" title="Web应用系统的功能模型"></a>Web应用系统的功能模型</h4><p>功能模型描述Web应用系统的两个处理元素，每个处理元素代表抽象过程的不同层次</p>
+<ul>
+<li><p>1.用户可观察到的功能有Web应用系统传递给最终用户的</p>
+</li>
+<li><p>2.分析类中的操作实现与类相关的行为</p>
+</li>
+</ul>
+<p>在功能模型创建的过程中，如果存在着潜在的复杂的行为，可以使用活动图进行分析</p>
+<h4 id="Web应用系统的配置模型"><a href="#Web应用系统的配置模型" class="headerlink" title="Web应用系统的配置模型"></a>Web应用系统的配置模型</h4><p>配置较为复杂时，使用UML部署图</p>
+<h4 id="导航建模"><a href="#导航建模" class="headerlink" title="导航建模"></a>导航建模</h4><p>具体情况具体分析</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/images/wechat.png" alt="王辉 wechat" style="width: 200px; max-width: 100%;">
+  <div>有钱的捧个钱场，没钱的捧个人场</div>
+</div>
+
+    
+
+    
+      
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/需求建模/" rel="tag"><i class="fa fa-tag"></i> 需求建模</a>
+          
+            <a href="/tags/流程/" rel="tag"><i class="fa fa-tag"></i> 流程</a>
+          
+            <a href="/tags/行为/" rel="tag"><i class="fa fa-tag"></i> 行为</a>
+          
+            <a href="/tags/模式/" rel="tag"><i class="fa fa-tag"></i> 模式</a>
+          
+            <a href="/tags/Web应用/" rel="tag"><i class="fa fa-tag"></i> Web应用</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/22/2019-05-21-制作Windows操作系统工具盘/" rel="next" title="制作Windows操作系统工具盘">
+                <i class="fa fa-chevron-left"></i> 制作Windows操作系统工具盘
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/24/2019-05-23-08_软件工程/" rel="prev" title="软件工程-08_设计概念">
+                软件工程-08_设计概念 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/one.gif" alt="王辉">
+            
+              <p class="site-author-name" itemprop="name">王辉</p>
+              <div class="site-description motion-element" itemprop="description">不知名程序猿</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">57</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">102</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wanghui2019" title="GitHub &rarr; https://github.com/wanghui2019" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#需求建模：流程、行为、模式和Web应用"><span class="nav-number">1.</span> <span class="nav-text">需求建模：流程、行为、模式和Web应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求建模策略"><span class="nav-number">1.1.</span> <span class="nav-text">需求建模策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向数建模"><span class="nav-number">1.2.</span> <span class="nav-text">面向数建模</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建数据流模型"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">创建数据流模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建控制流模型"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">创建控制流模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#控制规格说明"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">控制规格说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理规格说明"><span class="nav-number">1.2.0.4.</span> <span class="nav-text">处理规格说明</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成行为模型"><span class="nav-number">1.3.</span> <span class="nav-text">生成行为模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#识别用例事件"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">识别用例事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#状态表现"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">状态表现</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#需求建模的模式"><span class="nav-number">1.4.</span> <span class="nav-text">需求建模的模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#发现分析模式"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">发现分析模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#需求模式举例"><span class="nav-number">1.4.0.2.</span> <span class="nav-text">需求模式举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web应用系统的需求建模"><span class="nav-number">1.5.</span> <span class="nav-text">Web应用系统的需求建模</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如何分析"><span class="nav-number">1.5.0.1.</span> <span class="nav-text">如何分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#需求建模的输入"><span class="nav-number">1.5.0.2.</span> <span class="nav-text">需求建模的输入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#需求建模的输出"><span class="nav-number">1.5.0.3.</span> <span class="nav-text">需求建模的输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Web应用系统内容建模"><span class="nav-number">1.5.0.4.</span> <span class="nav-text">Web应用系统内容建模</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Web应用系统的交互模型"><span class="nav-number">1.5.0.5.</span> <span class="nav-text">Web应用系统的交互模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Web应用系统的功能模型"><span class="nav-number">1.5.0.6.</span> <span class="nav-text">Web应用系统的功能模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Web应用系统的配置模型"><span class="nav-number">1.5.0.7.</span> <span class="nav-text">Web应用系统的配置模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导航建模"><span class="nav-number">1.5.0.8.</span> <span class="nav-text">导航建模</span></a></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王辉</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+
+

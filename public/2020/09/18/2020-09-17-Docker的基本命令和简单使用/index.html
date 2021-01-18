@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/google.jpeg?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/google.jpeg?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/google.jpeg?v=7.1.1">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Docker的基本命令和简单使用">
+<meta name="keywords" content="基本命令,docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker的基本命令和简单使用">
+<meta property="og:url" content="http://yoursite.com/2020/09/18/2020-09-17-Docker的基本命令和简单使用/index.html">
+<meta property="og:site_name" content="王辉的blog">
+<meta property="og:description" content="Docker的基本命令和简单使用">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-09-17T10:13:58.071Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker的基本命令和简单使用">
+<meta name="twitter:description" content="Docker的基本命令和简单使用">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2020/09/18/2020-09-17-Docker的基本命令和简单使用/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Docker的基本命令和简单使用 | 王辉的blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/wanghui2019"><img style="position: absolute; top: 0; right: 0; border: 0;" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王辉的blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-标签">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-分类">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/18/2020-09-17-Docker的基本命令和简单使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王辉">
+      <meta itemprop="description" content="不知名程序猿">
+      <meta itemprop="image" content="/images/one.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王辉的blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Docker的基本命令和简单使用
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-09-17 17:56:36 / 修改时间：10:13:58" itemprop="dateCreated datePublished" datetime="2020-09-17T17:56:36Z">2020-09-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <center><font size="4" color="red">Docker的基本命令和简单使用</font></center>
+
+<a id="more"></a>
+<h1 id="docker命令"><a href="#docker命令" class="headerlink" title="docker命令"></a>docker命令</h1><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">sudo service docker start                        #开启docker服务</span><br><span class="line">sudo service docker stop                         #关闭docker服务</span><br><span class="line"></span><br><span class="line">docker build [OPTIONS] PATH | URL | -            #构建镜像</span><br><span class="line">例如：</span><br><span class="line">docker build -t dockertest:v1 .                  # -t表示指定name:tag</span><br><span class="line"></span><br><span class="line">docker pull $&#123;CONTAINER NAME&#125;                    #拉取镜像</span><br><span class="line">docker images                                    #查看本地所有镜像</span><br><span class="line">docker ps                                        #查看所有正在运行的容器，加-q返回id</span><br><span class="line">docker ps -a                                     #查看所有容器，加-q返回id</span><br><span class="line">docker rmi $&#123;IMAGE NAME/ID&#125;                      #删除镜像</span><br><span class="line">docker rm $&#123;CONTAINER NAME/ID&#125;                   #删除容器</span><br><span class="line">docker save $&#123;IMAGE NAME&#125; &gt; $&#123;FILE NAME&#125;.tar     #将镜像保存成文件</span><br><span class="line">docker load &lt; $&#123;FILE NAME&#125;.tar                   #从文件加载镜像</span><br><span class="line">docker start $&#123;CONTAINER NAME/ID&#125;                #运行一个以前运行过的容器</span><br><span class="line">docker stop $&#123;CONTAINER NAME/ID&#125;                 #停止一个正在运行的容器</span><br><span class="line">docker logs $&#123;CONTAINER NAME/ID&#125;                 #显示运行容器的日志</span><br><span class="line">docker run...                                    #运行一个容器</span><br><span class="line">    --name $&#123;container name&#125;                          #设置容器名称</span><br><span class="line">    -p $&#123;host port&#125;:$&#123;container port&#125;                 #映射主机和容器内的端口</span><br><span class="line">    -e $&#123;env name&#125;=$&#123;env value&#125;                       #添加环境变量</span><br><span class="line">    -d                                                #后台运行</span><br><span class="line">    -v $&#123;host folder path&#125;:$&#123;container folder path&#125;   #将主机目录挂在到容器内</span><br><span class="line">    $&#123;IMAGE NAME/ID&#125; </span><br><span class="line">例如；</span><br><span class="line">docker run -d -p 8080:8080 dockertest:v1</span><br></pre></td></tr></table></figure>
+<h2 id="高级命令"><a href="#高级命令" class="headerlink" title="高级命令"></a>高级命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Advance use </span><br><span class="line">docker ps -f "status=exited"                                   #显示所有退出的容器</span><br><span class="line">docker ps -a -q                                                #显示所有容器id</span><br><span class="line">docker ps -f "status=exited" -q                                #显示所有退出容器的id</span><br><span class="line">docker restart $(docker ps -q)                                 #重启所有正在运行的容器</span><br><span class="line">docker stop $(docker ps -a -q)                                 #停止所有容器</span><br><span class="line">docker rm $(docker ps -a -q)                                   #删除所有容器</span><br><span class="line">docker rm $(docker ps -f "status=exited" -q)                   #删除所有退出的容器</span><br><span class="line">docker rm $(docker stop $(docker ps -a -q))                    #停止并删除所有容器</span><br><span class="line">docker start $(docker ps -a -q)                                #启动所有容器</span><br><span class="line">docker rmi $(docker images -a -q)                              #删除所有镜像</span><br><span class="line">docker exec -it $&#123;CONTAINER NAME/ID&#125; /bin/bash                 #进入容器内</span><br><span class="line">docker exec -it $&#123;CONTAINER NAME/ID&#125; ping $&#123;CONTAINER NAME/ID&#125; #一个容器ping另外一个容器</span><br><span class="line">docker top $&#123;CONTAINER NAME/ID&#125;                                #显示一个容器的top信息</span><br><span class="line">docker stats                                                   #显示容器统计信息(正在运行)</span><br><span class="line">	docker stats -a                                            #显示所有容器的统计信息(包括没有运行的)</span><br><span class="line">	docker stats -a --no-stream                                #显示所有容器的统计信息(包括没有运行的) ，只显示一次</span><br><span class="line">	docker stats --no-stream | sort -k8 -h                     #统计容器信息并以使用流量作为倒序</span><br><span class="line">docker system</span><br><span class="line">      docker system df           #显示硬盘占用</span><br><span class="line">      docker system events       #显示容器的实时事件</span><br><span class="line">      docker system info         #显示系统信息</span><br><span class="line">      docker system prune        #清理文件</span><br></pre></td></tr></table></figure>
+<h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><p>官方建议使用Dockerfile进行定制镜像，Dockerfile下有十几种命令可以操作，这些命令是的Dockerfile的功能很强大</p>
+<h4 id="FROM指定基础镜像"><a href="#FROM指定基础镜像" class="headerlink" title="FROM指定基础镜像"></a>FROM指定基础镜像</h4><p>所谓定制镜像，那一定是以一个镜像为基础，在其上进行定制。就像我们之前运行了一个 <code>nginx</code> 镜像的容器，再进行修改一样，基础镜像是必须指定的。而 <code>FROM</code> 就是指定<strong>基础镜像</strong>，因此一个 <code>Dockerfile</code> 中 <code>FROM</code> 是必备的指令，并且必须是第一条指令。</p>
+<h4 id="RUN执行命令"><a href="#RUN执行命令" class="headerlink" title="RUN执行命令"></a>RUN执行命令</h4><p><code>RUN</code> 指令是用来执行命令行命令的。由于命令行的强大能力，<code>RUN</code> 指令在定制镜像时是最常用的指令之一。我们在liunx上需要操作的命令，如果想在Docker内执行，都可以使用<code>RUN</code>命令。</p>
+<p><code>RUN</code> 就像 Shell 脚本一样可以执行命令，但是我们并不使用多个<code>RUN</code>命令来执行命令，例如：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> debian:jessie</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span> apt-get update</span><br><span class="line"><span class="keyword">RUN</span> apt-get install -y gcc libc6-dev make</span><br><span class="line"><span class="keyword">RUN</span> wget -O redis.tar.gz "http://download.redis.io/releases/redis-3.2.5.tar.gz"</span><br><span class="line"><span class="keyword">RUN</span> mkdir -p /usr/src/redis</span><br><span class="line"><span class="keyword">RUN</span> tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1</span><br><span class="line"><span class="keyword">RUN</span> make -C /usr/src/redis</span><br><span class="line"><span class="keyword">RUN</span> make -C /usr/src/redis install</span><br></pre></td></tr></table></figure>
+<p>因为Dockerfile 中每一个指令都会建立一层镜像，<code>RUN</code>命令也不例外，这是完全没有意义的，而且很多运行时不需要的东西，都被装进了镜像里，比如编译环境、更新的软件包等等。结果就是产生非常臃肿、非常多层的镜像，不仅仅增加了构建部署的时间，也很容易出错。</p>
+<p>上面的 <code>Dockerfile</code> 正确的写法应该是这样：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> debian:jessie</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span> buildDeps='gcc libc6-dev make' \</span><br><span class="line">    &amp;&amp; apt-get update \</span><br><span class="line">    &amp;&amp; apt-get install -y $buildDeps \</span><br><span class="line">    &amp;&amp; wget -O redis.tar.gz "http://download.redis.io/releases/redis-3.2.5.tar.gz" \</span><br><span class="line">    &amp;&amp; mkdir -p /usr/src/redis \</span><br><span class="line">    &amp;&amp; tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1 \</span><br><span class="line">    &amp;&amp; make -C /usr/src/redis \</span><br><span class="line">    &amp;&amp; make -C /usr/src/redis install \</span><br><span class="line">    &amp;&amp; rm -rf /var/lib/apt/lists/* \</span><br><span class="line">    &amp;&amp; rm redis.tar.gz \</span><br><span class="line">    &amp;&amp; rm -r /usr/src/redis \</span><br><span class="line">    &amp;&amp; apt-get purge -y --auto-remove $buildDeps</span><br></pre></td></tr></table></figure>
+<p>使用 <code>&amp;&amp;</code> 将各个所需命令串联起来。将之前的 7 层，简化为了 1 层。</p>
+<p>为了保持 <code>Dockerfile</code> 文件的可读性，可理解性，以及可维护性，建议将长的或复杂的 <code>RUN</code> 指令用反斜杠 <code>\</code> 分割成多行。</p>
+<h4 id="COPY复制文件"><a href="#COPY复制文件" class="headerlink" title="COPY复制文件"></a>COPY复制文件</h4><p>格式：</p>
+<ul>
+<li><code>COPY &lt;源路径&gt;... &lt;目标路径&gt;</code></li>
+<li><code>COPY [&quot;&lt;源路径1&gt;&quot;,... &quot;&lt;目标路径&gt;&quot;]</code></li>
+</ul>
+<p><code>COPY</code> 指令将从构建上下文目录中 <code>&lt;源路径&gt;</code> 的文件/目录复制到新的一层的镜像内的 <code>&lt;目标路径&gt;</code> 位置。比如</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span> package.json /usr/src/app/</span><br></pre></td></tr></table></figure>
+<p>源路径文件：就是Dockerfile所在目录下的文件</p>
+<p>目标路径：就是Docker镜像内的路径</p>
+<h4 id="ADD添加命令"><a href="#ADD添加命令" class="headerlink" title="ADD添加命令"></a>ADD添加命令</h4><p><code>ADD</code> 指令和 <code>COPY</code> 的格式和性质基本一致。但是在 <code>COPY</code> 基础上增加了一些功能。它的意思就是将Dockerfile下的文件或者目录添加到Docker镜像内，但是该命令不常用。</p>
+<p>如果 <code>&lt;源路径&gt;</code> 为一个 <code>tar</code> 压缩文件的话，压缩格式为 <code>gzip</code>, <code>bzip2</code> 以及 <code>xz</code> 的情况下，<code>ADD</code> 指令将会自动解压缩这个压缩文件到 <code>&lt;目标路径&gt;</code> 去。</p>
+<p>因此在 <code>COPY</code> 和 <code>ADD</code> 指令中选择的时候，可以遵循这样的原则，所有的文件复制均使用 <code>COPY</code> 指令，仅在需要自动解压缩的场合使用 <code>ADD</code>。</p>
+<h4 id="CMD容器启动命令"><a href="#CMD容器启动命令" class="headerlink" title="CMD容器启动命令"></a>CMD容器启动命令</h4><p>如果要理解<code>CMD</code>命令，首先理解一下容器启动后的命令</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span> -i -t ubuntu /bin/bash</span><br></pre></td></tr></table></figure>
+<p>该命令表示容器启动时立即在容器内打开一个shell终端</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span> -i -t ubuntu /bin/ps</span><br></pre></td></tr></table></figure>
+<p>表示容器启动后立即运行 /bin/ps命令，显示容器的当前进程</p>
+<p>而这种容器启动后要干什么，在Dockerfile中如何实现呢？就可以使用CMD命令，来指定容器启动时要执行的命令。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"><span class="keyword">MAINTAINER</span> xxx</span><br><span class="line"><span class="keyword">RUN</span> echo hello1 &gt; test1.txt</span><br><span class="line"><span class="keyword">RUN</span> echo hello2 &gt; /test2.txt</span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">80</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">81</span></span><br><span class="line"><span class="keyword">CMD</span> ["/bin/bash"]</span><br></pre></td></tr></table></figure>
+<p>上面dockerfile文件中最后一行CMD指令的参数是指定容器启动时要执行的命令，这里是bin/bash命令。</p>
+<p>用docker run命令创建并启动容器（myimage  是用前面dockerfile创建的镜像的名称）：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span> -i -t myimage</span><br></pre></td></tr></table></figure>
+<p>即使dockerfile中有CMD指令，我们仍然可以在docker run命令中带上容器启动时执行的命令，这会覆盖dockerfile中的CMD指令指定的命令。</p>
+<h4 id="ENTRYPOINT-入口点"><a href="#ENTRYPOINT-入口点" class="headerlink" title="ENTRYPOINT 入口点"></a>ENTRYPOINT 入口点</h4><p><code>ENTRYPOINT</code> 的目的和 <code>CMD</code> 一样，当指定了 <code>ENTRYPOINT</code> 后，<code>CMD</code> 的含义就发生了改变，不再是直接的运行其命令，而是将 <code>CMD</code> 的内容作为参数传给 <code>ENTRYPOINT</code> 指令，换句话说实际执行时，将变为：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">ENTRYPOINT</span>&gt; "&lt;CMD&gt;"</span><br></pre></td></tr></table></figure>
+<p>那么有了 <code>CMD</code> 后，为什么还要有 <code>ENTRYPOINT</code> 呢？这种 <code>&lt;ENTRYPOINT&gt; &quot;&lt;CMD&gt;&quot;</code> 有什么好处么？</p>
+<p><strong>让镜像变成像命令一样使用</strong></p>
+<p>假设我们需要一个得知自己当前公网 IP 的镜像，那么可以先用 <code>CMD</code> 来实现：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">16.04</span></span><br><span class="line"><span class="keyword">RUN</span> apt-get update \</span><br><span class="line">    &amp;&amp; apt-get install -y curl \</span><br><span class="line">    &amp;&amp; rm -rf /var/lib/apt/lists/*</span><br><span class="line"><span class="keyword">CMD</span> [ "curl", "-s", "http://ip.cn" ]</span><br></pre></td></tr></table></figure>
+<p>假如我们使用 <code>docker build -t myip .</code> 来构建镜像的话，如果我们需要查询当前公网 IP，只需要执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker run myip</span><br><span class="line">当前 IP：61.148.226.66 来自：北京市 联通</span><br></pre></td></tr></table></figure>
+<p>嗯，这么看起来好像可以直接把镜像当做命令使用了，不过命令总有参数，如果我们希望加参数呢？比如从上面的 <code>CMD</code> 中可以看到实质的命令是 <code>curl</code>，那么如果我们希望显示 HTTP 头信息，就需要加上 <code>-i</code> 参数。那么我们可以直接加 <code>-i</code> 参数给 <code>docker run myip</code> 么？</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker run myip -i</span><br><span class="line">docker: Error response from daemon: invalid header field value <span class="string">"oci runtime error: container_linux.go:247: starting container process caused \"exec: \\\"-i\\\": executable file not found in <span class="variable">$PATH</span>\"\n"</span>.</span><br></pre></td></tr></table></figure>
+<p>我们可以看到可执行文件找不到的报错，<code>executable file not found</code>。之前我们说过，跟在镜像名后面的是 <code>command</code>，运行时会替换 <code>CMD</code> 的默认值。因此这里的 <code>-i</code> 替换了原来的 <code>CMD</code>，而不是添加在原来的 <code>curl -s http://ip.cn</code> 后面。而 <code>-i</code> 根本不是命令，所以自然找不到。</p>
+<p>那么如果我们希望加入 <code>-i</code> 这参数，我们就必须重新完整的输入这个命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run myip curl -s http://ip.cn -i</span><br></pre></td></tr></table></figure>
+<p>这显然不是很好的解决方案，而使用 <code>ENTRYPOINT</code> 就可以解决这个问题。现在我们重新用 <code>ENTRYPOINT</code> 来实现这个镜像：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">16.04</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update \</span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get install -y curl \</span></span><br><span class="line"><span class="bash">    &amp;&amp; rm -rf /var/lib/apt/lists/*</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [ <span class="string">"curl"</span>, <span class="string">"-s"</span>, <span class="string">"http://ip.cn"</span> ]</span></span><br></pre></td></tr></table></figure>
+<p>这次我们再来尝试直接使用 <code>docker run myip -i</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ docker run myip</span><br><span class="line">当前 IP：61.148.226.66 来自：北京市 联通</span><br><span class="line"></span><br><span class="line">$ docker run myip -i</span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Server: nginx/1.8.0</span><br><span class="line">Date: Tue, 22 Nov 2016 05:12:40 GMT</span><br><span class="line">Content-Type: text/html; charset=UTF-8</span><br><span class="line">Vary: Accept-Encoding</span><br><span class="line">X-Powered-By: PHP/5.6.24-1~dotdeb+7.1</span><br><span class="line">X-Cache: MISS from cache-2</span><br><span class="line">X-Cache-Lookup: MISS from cache-2:80</span><br><span class="line">X-Cache: MISS from proxy-2_6</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Via: 1.1 cache-2:80, 1.1 proxy-2_6:8006</span><br><span class="line">Connection: keep-alive</span><br><span class="line"></span><br><span class="line">当前 IP：61.148.226.66 来自：北京市 联通</span><br></pre></td></tr></table></figure>
+<p>可以看到，这次成功了。这是因为当存在 <code>ENTRYPOINT</code> 后，<code>CMD</code> 的内容将会作为参数传给 <code>ENTRYPOINT</code>，而这里 <code>-i</code> 就是新的 <code>CMD</code>，因此会作为参数传给 <code>curl</code>，从而达到了我们预期的效果。</p>
+<h4 id="ENV-设置环境变量"><a href="#ENV-设置环境变量" class="headerlink" title="ENV 设置环境变量"></a>ENV 设置环境变量</h4><p>这个指令很简单，就是设置环境变量而已，无论是后面的其它指令，如 <code>RUN</code>，还是运行时的应用，都可以直接使用这里定义的环境变量。</p>
+<p>定义了环境变量，那么在后续的指令中，就可以使用这个环境变量。比如在官方 <code>node</code> 镜像 <code>Dockerfile</code> 中，就有类似这样的代码：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENV</span> NODE_VERSION <span class="number">7.2</span>.<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> curl -SLO <span class="string">"https://nodejs.org/dist/v<span class="variable">$NODE_VERSION</span>/node-v<span class="variable">$NODE_VERSION</span>-linux-x64.tar.xz"</span> \</span></span><br><span class="line"><span class="bash">  &amp;&amp; curl -SLO <span class="string">"https://nodejs.org/dist/v<span class="variable">$NODE_VERSION</span>/SHASUMS256.txt.asc"</span> \</span></span><br><span class="line"><span class="bash">  &amp;&amp; gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \</span></span><br><span class="line"><span class="bash">  &amp;&amp; grep <span class="string">" node-v<span class="variable">$NODE_VERSION</span>-linux-x64.tar.xz\$"</span> SHASUMS256.txt | sha256sum -c - \</span></span><br><span class="line"><span class="bash">  &amp;&amp; tar -xJf <span class="string">"node-v<span class="variable">$NODE_VERSION</span>-linux-x64.tar.xz"</span> -C /usr/<span class="built_in">local</span> --strip-components=1 \</span></span><br><span class="line"><span class="bash">  &amp;&amp; rm <span class="string">"node-v<span class="variable">$NODE_VERSION</span>-linux-x64.tar.xz"</span> SHASUMS256.txt.asc SHASUMS256.txt \</span></span><br><span class="line"><span class="bash">  &amp;&amp; ln -s /usr/<span class="built_in">local</span>/bin/node /usr/<span class="built_in">local</span>/bin/nodejs</span></span><br></pre></td></tr></table></figure>
+<p>在这里先定义了环境变量 <code>NODE_VERSION</code>，其后的 <code>RUN</code> 这层里，多次使用 <code>$NODE_VERSION</code> 来进行操作定制。可以看到，将来升级镜像构建版本的时候，只需要更新 <code>7.2.0</code> 即可，<code>Dockerfile</code> 构建维护变得更轻松了。</p>
+<p>下列指令可以支持环境变量展开： <code>ADD</code>、<code>COPY</code>、<code>ENV</code>、<code>EXPOSE</code>、<code>LABEL</code>、<code>USER</code>、<code>WORKDIR</code>、<code>VOLUME</code>、<code>STOPSIGNAL</code>、<code>ONBUILD</code>。</p>
+<h4 id="ARG-构建参数"><a href="#ARG-构建参数" class="headerlink" title="ARG 构建参数"></a>ARG 构建参数</h4><p>构建参数和 <code>ENV</code> 的效果一样，都是设置环境变量。所不同的是，<code>ARG</code> 所设置的构建环境的环境变量，在将来容器运行时是不会存在这些环境变量的。但是不要因此就使用 <code>ARG</code> 保存密码之类的信息，因为 <code>docker history</code> 还是可以看到所有值的。</p>
+<h4 id="VOLUME-定义匿名卷"><a href="#VOLUME-定义匿名卷" class="headerlink" title="VOLUME 定义匿名卷"></a>VOLUME 定义匿名卷</h4><p>格式为：</p>
+<ul>
+<li><code>VOLUME [&quot;&lt;路径1&gt;&quot;, &quot;&lt;路径2&gt;&quot;...]</code></li>
+<li><code>VOLUME &lt;路径&gt;</code></li>
+</ul>
+<p>之前我们说过，容器运行时应该尽量保持容器存储层不发生写操作，对于数据库类需要保存动态数据的应用，其数据库文件应该保存于卷(volume)中。为了防止运行时用户忘记将动态文件所保存目录挂载为卷，在 <code>Dockerfile</code> 中，我们可以事先指定某些目录挂载为匿名卷，这样在运行时如果用户不指定挂载，其应用也可以正常运行，不会向容器存储层写入大量数据。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">VOLUME</span><span class="bash"> /data</span></span><br></pre></td></tr></table></figure>
+<p>这里的 <code>/data</code> 目录就会在运行时自动挂载为匿名卷，任何向 <code>/data</code> 中写入的信息都不会记录进容器存储层，从而保证了容器存储层的无状态化。当然，运行时可以覆盖这个挂载设置。比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -v mydata:/data xxxx</span><br></pre></td></tr></table></figure>
+<p>在这行命令中，就使用了 <code>mydata</code> 这个命名卷挂载到了 <code>/data</code> 这个位置，替代了 <code>Dockerfile</code> 中定义的匿名卷的挂载配置。</p>
+<h4 id="EXPOSE-暴露端口"><a href="#EXPOSE-暴露端口" class="headerlink" title="EXPOSE 暴露端口"></a>EXPOSE 暴露端口</h4><p>格式为 <code>EXPOSE &lt;端口1&gt; [&lt;端口2&gt;...]</code>。</p>
+<p>EXPOSE的作用：只是说明docker容器开放了哪些端口，并没有将这些端口实际开放了出来！</p>
+<p>意思是：只是声明了这个容器要开放的端口，作用有两个：</p>
+<ul>
+<li><p>运维人员一看Dockerfile里的EXPOSE就知道了这个容器要开放哪个端口</p>
+</li>
+<li><p>在<code>docker run</code>命令后使用-P命令进行随机映射的时候，是会对这个声明的端口进行映射的，这时候才是将宿主主机端口映射到了容器主机端口</p>
+</li>
+</ul>
+<h4 id="WORKDIR-指定工作目录"><a href="#WORKDIR-指定工作目录" class="headerlink" title="WORKDIR 指定工作目录"></a>WORKDIR 指定工作目录</h4><p>Dockerfile中的WORKDIR指令用于指定容器的一个目录， 容器启动时执行的命令会在该目录下执行。</p>
+<p>相当于设置容器的工作目录了。我们来看一个dockerfile文件</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"><span class="keyword">MAINTAINER</span> hello</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /mydir</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> hello world &gt; /mydir/test.txt</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /mydir</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"more"</span> ,<span class="string">"test.txt"</span>]</span></span><br></pre></td></tr></table></figure>
+<p>假设根据该dockerfile构建的镜像名为 myimage</p>
+<ul>
+<li><p>运行 <code>docker run myimage</code>  输出 <code>hello world</code></p>
+</li>
+<li><p>运行<code>docker run myimage more test.txt</code>  和上面输出一致</p>
+</li>
+</ul>
+<p>可以看出，more的参数是 test.txt，但没有指定路径，却能成功，说明当前路径就是上面WORKDIR指令设置的。</p>
+<p>如果我们在上面的dockerfile中把WORKDIR指令去掉，创建的容器运行会报文件不存在错误。</p>
+<p>原因其实很简单，在 Shell 中，连续两行是同一个进程执行环境，因此前一个命令修改的内存状态，会直接影响后一个命令；而在 <code>Dockerfile</code> 中，这两行 <code>RUN</code> 命令的执行环境根本不同，是两个完全不同的容器。这就是对 <code>Dockerfile</code> 构建分层存储的概念不了解所导致的错误。</p>
+<blockquote>
+<p>可以在 docker run命令中用 -w参数覆盖掉WORKDIR指令的设置</p>
+</blockquote>
+<p>如：执行 <code>docker run -w / myimage</code></p>
+<p>上面的-w参数将容器的工作目录设置成了根目录，而根目录下没有test.txt文件。</p>
+<p>所以结果显示：test.txt: No such file or directory</p>
+<h4 id="USER-指定当前用户"><a href="#USER-指定当前用户" class="headerlink" title="USER 指定当前用户"></a>USER 指定当前用户</h4><p><code>USER</code>指令用于指定容器执行程序的用户身份，默认是 root用户。</p>
+<p>在<code>docker run</code> 中可以通过 -u 选项来覆盖USER指令的设置。</p>
+<p>举例：docker run -i -t -u wanghui newmysqldb /bin/bash</p>
+<p>显示的shell提示符是：</p>
+<p>wanghui@57cd57edba38:/$</p>
+<p>注意：docker容器中的root用户密码是随机分配的。</p>
+<h4 id="HEALTHCHECK-健康检查"><a href="#HEALTHCHECK-健康检查" class="headerlink" title="HEALTHCHECK 健康检查"></a>HEALTHCHECK 健康检查</h4><p><code>HEALTHCHECK</code> 支持下列选项：</p>
+<ul>
+<li><code>--interval=&lt;间隔&gt;</code>：两次健康检查的间隔，默认为 30 秒；</li>
+<li><code>--timeout=&lt;时长&gt;</code>：健康检查命令运行超时时间，如果超过这个时间，本次健康检查就被视为失败，默认 30 秒；</li>
+<li><code>--retries=&lt;次数&gt;</code>：当连续失败指定次数后，则将容器状态视为 <code>unhealthy</code>，默认 3 次。</li>
+</ul>
+<h4 id="ONBUILD-为他人作嫁衣"><a href="#ONBUILD-为他人作嫁衣" class="headerlink" title="ONBUILD 为他人作嫁衣"></a>ONBUILD 为他人作嫁衣</h4><p><code>ONBUILD</code> 是一个特殊的指令，它后面跟的是其它指令，比如 <code>RUN</code>, <code>COPY</code> 等，而这些指令，在当前镜像构建时并不会被执行。只有当以当前镜像为基础镜像，去构建下一级镜像的时候才会被执行。</p>
+<h4 id="MAINTAINER指定作者"><a href="#MAINTAINER指定作者" class="headerlink" title="MAINTAINER指定作者"></a>MAINTAINER指定作者</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">MAINTAINER</span> wanghui</span><br></pre></td></tr></table></figure>
+<h2 id="一个DockerFile例子"><a href="#一个DockerFile例子" class="headerlink" title="一个DockerFile例子"></a>一个DockerFile例子</h2><p>该例子是将Springboot打包的项目部署到docker上</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Docker image for springboot file run</span></span><br><span class="line"><span class="comment"># VERSION 0.0.1</span></span><br><span class="line"><span class="comment"># Author: eangulee</span></span><br><span class="line"><span class="comment"># 基础镜像使用java</span></span><br><span class="line"><span class="keyword">FROM</span> java:<span class="number">8</span></span><br><span class="line"><span class="comment"># 作者</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> wanghui</span><br><span class="line"><span class="comment"># VOLUME 指定了临时文件目录为/tmp。</span></span><br><span class="line"><span class="comment"># 其效果是在主机 /var/lib/docker 目录下创建了一个临时文件，并链接到容器的/tmp</span></span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash"> /tmp </span></span><br><span class="line"><span class="comment"># 将jar包添加到容器中并更名为app.jar</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> springbootlog-0.0.1-SNAPSHOT.jar app.jar </span></span><br><span class="line"><span class="comment"># 运行jar包</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> bash -c <span class="string">'touch /app.jar'</span></span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"java"</span>,<span class="string">"-Djava.security.egd=file:/dev/./urandom"</span>,<span class="string">"-jar"</span>,<span class="string">"/app.jar"</span>]</span></span><br></pre></td></tr></table></figure>
+<p>先构建成镜像：-t表示指定name:tag</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$</span> docker build <span class="literal">-t</span> hellotest:v1 .</span><br></pre></td></tr></table></figure>
+<p>查看构建好的镜像</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$</span> docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">hellotest           v1                  <span class="number">20</span>ec388fcf2b        <span class="number">4</span> minutes ago       <span class="number">683</span>MB</span><br><span class="line">java                <span class="number">8</span></span><br></pre></td></tr></table></figure>
+<p>启动容器</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$</span> docker run <span class="literal">-d</span> <span class="literal">-p</span> <span class="number">8080</span>:<span class="number">8080</span> hellotest:v1</span><br><span class="line">ecd44be82dbfd864f7a7dbbab938dffcfb4791170dfa2b7312e08f5e01243cc7</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/images/wechat.png" alt="王辉 wechat" style="width: 200px; max-width: 100%;">
+  <div>有钱的捧个钱场，没钱的捧个人场</div>
+</div>
+
+    
+
+    
+      
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/基本命令/" rel="tag"><i class="fa fa-tag"></i> 基本命令</a>
+          
+            <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/02/2020-04-01-02-redis使用/" rel="next" title="02-redis使用">
+                <i class="fa fa-chevron-left"></i> 02-redis使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/09/18/2020-09-17-Ubuntu常用压缩和解压命令/" rel="prev" title="Ubuntu常用压缩和解压命令">
+                Ubuntu常用压缩和解压命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/one.gif" alt="王辉">
+            
+              <p class="site-author-name" itemprop="name">王辉</p>
+              <div class="site-description motion-element" itemprop="description">不知名程序猿</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">57</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">102</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wanghui2019" title="GitHub &rarr; https://github.com/wanghui2019" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#docker命令"><span class="nav-number">1.</span> <span class="nav-text">docker命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">1.1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高级命令"><span class="nav-number">1.2.</span> <span class="nav-text">高级命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dockerfile"><span class="nav-number">1.3.</span> <span class="nav-text">Dockerfile</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#FROM指定基础镜像"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">FROM指定基础镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RUN执行命令"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">RUN执行命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#COPY复制文件"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">COPY复制文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ADD添加命令"><span class="nav-number">1.3.0.4.</span> <span class="nav-text">ADD添加命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CMD容器启动命令"><span class="nav-number">1.3.0.5.</span> <span class="nav-text">CMD容器启动命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ENTRYPOINT-入口点"><span class="nav-number">1.3.0.6.</span> <span class="nav-text">ENTRYPOINT 入口点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ENV-设置环境变量"><span class="nav-number">1.3.0.7.</span> <span class="nav-text">ENV 设置环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ARG-构建参数"><span class="nav-number">1.3.0.8.</span> <span class="nav-text">ARG 构建参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VOLUME-定义匿名卷"><span class="nav-number">1.3.0.9.</span> <span class="nav-text">VOLUME 定义匿名卷</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EXPOSE-暴露端口"><span class="nav-number">1.3.0.10.</span> <span class="nav-text">EXPOSE 暴露端口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WORKDIR-指定工作目录"><span class="nav-number">1.3.0.11.</span> <span class="nav-text">WORKDIR 指定工作目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#USER-指定当前用户"><span class="nav-number">1.3.0.12.</span> <span class="nav-text">USER 指定当前用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HEALTHCHECK-健康检查"><span class="nav-number">1.3.0.13.</span> <span class="nav-text">HEALTHCHECK 健康检查</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ONBUILD-为他人作嫁衣"><span class="nav-number">1.3.0.14.</span> <span class="nav-text">ONBUILD 为他人作嫁衣</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MAINTAINER指定作者"><span class="nav-number">1.3.0.15.</span> <span class="nav-text">MAINTAINER指定作者</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个DockerFile例子"><span class="nav-number">1.4.</span> <span class="nav-text">一个DockerFile例子</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王辉</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+
+

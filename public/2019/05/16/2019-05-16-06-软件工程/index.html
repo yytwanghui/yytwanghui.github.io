@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/google.jpeg?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/google.jpeg?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/google.jpeg?v=7.1.1">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文是一篇关于需求建模的文章">
+<meta name="keywords" content="需求建模,场景,信息,类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件工程-06_需求建模：场景、信息、与类分析">
+<meta property="og:url" content="http://yoursite.com/2019/05/16/2019-05-16-06-软件工程/index.html">
+<meta property="og:site_name" content="王辉的blog">
+<meta property="og:description" content="本文是一篇关于需求建模的文章">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdbd6454448646866.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdbe5172a8f195961.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/05/15/5cdbfc49be07082712.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/05/16/5cdcc06adb2ef45071.jpg">
+<meta property="og:updated_time" content="2020-09-11T10:59:20.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="软件工程-06_需求建模：场景、信息、与类分析">
+<meta name="twitter:description" content="本文是一篇关于需求建模的文章">
+<meta name="twitter:image" content="https://i.loli.net/2019/05/15/5cdbd6454448646866.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/05/16/2019-05-16-06-软件工程/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>软件工程-06_需求建模：场景、信息、与类分析 | 王辉的blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/wanghui2019"><img style="position: absolute; top: 0; right: 0; border: 0;" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">王辉的blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-标签">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-分类">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/16/2019-05-16-06-软件工程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="王辉">
+      <meta itemprop="description" content="不知名程序猿">
+      <meta itemprop="image" content="/images/one.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="王辉的blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">软件工程-06_需求建模：场景、信息、与类分析
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-16 10:09:22" itemprop="dateCreated datePublished" datetime="2019-05-16T10:09:22Z">2019-05-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-09-11 10:59:20" itemprop="dateModified" datetime="2020-09-11T10:59:20Z">2020-09-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/软件工程/" itemprop="url" rel="index"><span itemprop="name">软件工程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <center><font size="4" color="red">本文是一篇关于需求建模的文章</font></center>
+
+<a id="more"></a>
+<h1 id="需求建模：场景、信息、与类分析"><a href="#需求建模：场景、信息、与类分析" class="headerlink" title="需求建模：场景、信息、与类分析"></a>需求建模：场景、信息、与类分析</h1><h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>需求建模：</p>
+<ul>
+<li><p>1.场景建模</p>
+</li>
+<li><p>2.数据建模</p>
+</li>
+<li><p>3.面向类的模型</p>
+</li>
+<li><p>4.面向流程的模型</p>
+</li>
+<li><p>5.行为模型</p>
+</li>
+</ul>
+<h4 id="总体目标和原理"><a href="#总体目标和原理" class="headerlink" title="总体目标和原理"></a>总体目标和原理</h4><p>需求建模必须实现3个主要目标：</p>
+<ul>
+<li><p>1.描述客户需要什么</p>
+</li>
+<li><p>2.为软件设计奠定基础</p>
+</li>
+<li><p>3.定义在软件完成后可以被确认的一组需求</p>
+</li>
+</ul>
+<h4 id="分析的经验原则"><a href="#分析的经验原则" class="headerlink" title="分析的经验原则"></a>分析的经验原则</h4><p>模型的经验原则</p>
+<ul>
+<li><p>1.模型应关注在问题域或业务域内可见的需求，不要陷入细节</p>
+</li>
+<li><p>2.每个元素都应该增加对软件需求的整体理解，以及对信息域、功能和系统行为的深入理解</p>
+</li>
+<li><p>3.基础结构和其它非功能的模型应推延到设计阶段再考虑</p>
+</li>
+<li><p>4.最小化整个系统内的关联</p>
+</li>
+<li><p>5.确认需求模型为整个利益相关者都带来价值</p>
+</li>
+<li><p>6.尽可能保持模型简洁</p>
+</li>
+</ul>
+<h4 id="域分析"><a href="#域分析" class="headerlink" title="域分析"></a>域分析</h4><p>域分析师：发现和定义可复用的分析模式，分析类和相关的信息</p>
+<p><img src="https://i.loli.net/2019/05/15/5cdbd6454448646866.jpg" alt></p>
+<h4 id="建立模型的方法"><a href="#建立模型的方法" class="headerlink" title="建立模型的方法"></a>建立模型的方法</h4><p>结构化分析</p>
+<ul>
+<li>将数据对象抽取为一个Model，由该Model来对数据结果进行分析</li>
+</ul>
+<p>面向对象的分析</p>
+<ul>
+<li>定义类和影响客户需求的类之间的协作关系</li>
+</ul>
+<p>目的：</p>
+<ul>
+<li>不管采用什么分析方法，我们最终都是为了为利益相关者提供最好的软件需求模型和过渡到软件设计的最有效方法。</li>
+</ul>
+<p>需求模型的元素：</p>
+<p><img src="https://i.loli.net/2019/05/15/5cdbe5172a8f195961.jpg" alt></p>
+<h2 id="基于场景的建模"><a href="#基于场景的建模" class="headerlink" title="基于场景的建模"></a>基于场景的建模</h2><h4 id="新建初始用例"><a href="#新建初始用例" class="headerlink" title="新建初始用例"></a>新建初始用例</h4><p>开发用例问题：</p>
+<ul>
+<li><p>1.编写什么？</p>
+</li>
+<li><p>2.写多少？</p>
+</li>
+<li><p>3.编写说明应该多详细？</p>
+</li>
+<li><p>4.如何组织说明？</p>
+</li>
+</ul>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">编写：</span><br><span class="line">1.起始和导出</span><br><span class="line">2.定义问题范围</span><br><span class="line">3.说明整体的运行目标</span><br><span class="line">4.建立优先级顺序</span><br><span class="line">5.概述所有已知的功能需求</span><br><span class="line">6.描述系统将处理的信息</span><br></pre></td></tr></table></figure>
+<p>对用例的分析可以采用两种形式，一种是模拟利益相关者来陈述用例故事，另外一种是以列表的形式逐条列出执行的步骤。</p>
+<h4 id="细化初始用例"><a href="#细化初始用例" class="headerlink" title="细化初始用例"></a>细化初始用例</h4><p>细化问题：</p>
+<ul>
+<li><p>1.在这一状态点上，参与者能进行一些其它的动作吗？</p>
+</li>
+<li><p>2.在这一状态点上，参与者有没有可能遇到一些错误的条件？如果有可能，这些错误会是什么？</p>
+</li>
+<li><p>3.在这一状态点上，参与者有没有可能遇到一些其他的行为？是什么？</p>
+</li>
+</ul>
+<p>还应该考虑的问题：</p>
+<ul>
+<li><p>1.应答失败，如用户是等待一个应答，但应答超时了</p>
+</li>
+<li><p>2.性能差，如页面渲染速度贼慢</p>
+</li>
+</ul>
+<p>如何解决：</p>
+<ul>
+<li>看下一小节，编写正规的用例</li>
+</ul>
+<h4 id="编写正规的用例"><a href="#编写正规的用例" class="headerlink" title="编写正规的用例"></a>编写正规的用例</h4><p><strong>干货：规范的用例模版</strong></p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">用例：购买零食</span><br><span class="line">迭代：2，最新更新记录：hui XXXX年YY月RR日</span><br><span class="line">主演参与者：顾客</span><br><span class="line">情景目标：任何时候，任何地点用户通过互联网购买零食</span><br><span class="line">前提条件：客户已经申请了一个会员号，并且用户已经使用正确的会员号登陆</span><br><span class="line">起动：客户在想买零食的时候，打开电脑买零食</span><br><span class="line">场景：</span><br><span class="line">1.客户登陆零食网站</span><br><span class="line">2.客户输入他的会员号  </span><br><span class="line">3.客户输入他的密码     </span><br><span class="line">4.系统显示网站的零食首页信息</span><br><span class="line">5.客户选择零食加入购物车或者直接购买 </span><br><span class="line">6.客户选择完后开始点击“购买”</span><br><span class="line">7.系统显示出客户所购买零食的清单以及零食总价</span><br><span class="line">8.客户选择付款方式，然后点击“支付”</span><br><span class="line">9.系统提示付款成功     </span><br><span class="line">异常：</span><br><span class="line">1.会员号或者密码不正确——————参看用例：“确认用户名和密码”</span><br><span class="line">2.客户忘记了密码——————参看用例：“找回密码”</span><br><span class="line">3.还没有购物车——————参看用例：“购物车”</span><br><span class="line">4.支付失败——————参考用例：“支付”</span><br><span class="line">优先级：属于基础功能，高优先级</span><br><span class="line">何时可用：第X个增量，因为增量没有完全的设计，所以这里用X代替</span><br><span class="line">使用频率：高等频率</span><br><span class="line">使用方式：通过基于个人计算机的浏览器和互联网连接到零食网站</span><br><span class="line">次要参与者：系统管理员，客服</span><br><span class="line">次要参与者使用方式：</span><br><span class="line">1.系统管理员：基于个人计算机的系统</span><br><span class="line">2.客服：客服页面系统</span><br><span class="line">未解决的问题：</span><br><span class="line">1.有其他的登陆方式吗？如手机扫码登陆，手机短信登陆</span><br><span class="line">2.当购买人数出现高峰期时，怎样才能保证系统不崩溃？</span><br><span class="line">3.网络崩溃时，用户刷新后继续显示当前页面吗？</span><br></pre></td></tr></table></figure>
+<p>下一节结束用例的UML图，为了应对较复杂的用例情况</p>
+<h2 id="补充用例的UML模型"><a href="#补充用例的UML模型" class="headerlink" title="补充用例的UML模型"></a>补充用例的UML模型</h2><p>购买零食功能活动图</p>
+<p><img src="https://i.loli.net/2019/05/15/5cdbfc49be07082712.jpg" alt></p>
+<p>泳道图</p>
+<ul>
+<li>参考一下blog学习：<a href="https://blog.csdn.net/fly_zxy/article/details/80939806" target="_blank" rel="noopener">https://blog.csdn.net/fly_zxy/article/details/80939806</a></li>
+</ul>
+<h2 id="数据建模概念"><a href="#数据建模概念" class="headerlink" title="数据建模概念"></a>数据建模概念</h2><h4 id="数据对象"><a href="#数据对象" class="headerlink" title="数据对象"></a>数据对象</h4><p>数据对象由复合信息表示。</p>
+<ul>
+<li><p>复合信息：具有若干不同的特征或属性的事物</p>
+</li>
+<li><p>数据对象只封装数据</p>
+</li>
+</ul>
+<h4 id="数据属性"><a href="#数据属性" class="headerlink" title="数据属性"></a>数据属性</h4><p>数据属性定义了数据对象的性质，有三个不同的特征</p>
+<ul>
+<li><p>1.为数据对象实例命名</p>
+</li>
+<li><p>2.描述这个实例</p>
+</li>
+<li><p>3.建立对另一个表中的另一个实例的引用</p>
+</li>
+</ul>
+<p>区别于数据属性：</p>
+<ul>
+<li>数据对象与数据属性的区别？car是一个数据对象，里面封装的颜色，大小，价格等是数据属性</li>
+</ul>
+<h4 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h4><p>有些数据对象之间是有关系的，E-R关系</p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">一些常用的数据建模工具：</span><br><span class="line">AllFusion ERWin : https://erwin.com/?gclid=EAIaIQobChMI2-fG9ted4gIVmCCtBh0GoQBMEAAYASAAEgK8ePD_BwE</span><br><span class="line">ER/Studio : https://www.embarcadero.com/er-studio-editions</span><br><span class="line">Oracle Designer : https://www.oracle.com/technetwork/developer-tools/designer/overview/index-082236.html</span><br><span class="line">Visible Analyst : http://www.visiblesystemscorp.com/Products/Analyst/index.htm</span><br></pre></td></tr></table></figure>
+<h2 id="基于类的建模"><a href="#基于类的建模" class="headerlink" title="基于类的建模"></a>基于类的建模</h2><h4 id="识别分析类"><a href="#识别分析类" class="headerlink" title="识别分析类"></a>识别分析类</h4><p>分析过程，寻找名词和动词，分析类表现为以下方式之一：</p>
+<ul>
+<li><p>1.外部实体，产生或使用基于计算机系统的信息</p>
+</li>
+<li><p>2.事物，问题信息域的一部分</p>
+</li>
+<li><p>3.偶尔事件或事件，在系统操作环境内发生</p>
+</li>
+<li><p>4.角色，由和系统交互的人员扮演</p>
+</li>
+<li><p>5.组织单元，和某个应用系统相关</p>
+</li>
+<li><p>6.场地，建立问题的环境和系统的整体功能</p>
+</li>
+<li><p>7.结构，定义了对象的类或与对象相关的类</p>
+</li>
+</ul>
+<p>最初找出的有用的名词或者动词只能称为潜在类，还需要考虑这些潜在类是否有以下特性</p>
+<ul>
+<li><p>1.保留信息：只有记录潜在类的信息，系统才能正常工作，这类潜在类是有用的</p>
+</li>
+<li><p>2.所需服务：潜在类必须具有一组可确认的操作，这组操作能用某种方式改变类的属性值</p>
+</li>
+<li><p>3.多个属性：需求分析过程中，焦点应在于“主”信息，事实上，只有一个属性的类可能在设计中有用，但在分析活动阶段，最好把它作为另一个类的某个属性.意思是如果是单一属性，就没必须为这个属性创建类，而是考虑其是不是其他类的属性。</p>
+</li>
+<li><p>4.公共属性：可以为潜在类定义一组属性，这些属性适用于类的所有实例</p>
+</li>
+<li><p>5.公共操作：可以为潜在类定义一组操作，这些操作使用与类的所有实例</p>
+</li>
+<li><p>6.必要需求：在问题空间中出现的外部实体，和任何系统解决方案运行时所必须的生产或消费信息，几乎都被定义为需求模型中的类</p>
+</li>
+</ul>
+<h4 id="描述属性"><a href="#描述属性" class="headerlink" title="描述属性"></a>描述属性</h4><p>属性描述了已经包含在需求模型中的类。实质上，属性是定义类以澄清类在问题空间的环境下意味着什么</p>
+<p>可以采用一些组合项来描述数据：</p>
+<ul>
+<li>用户登陆=登陆账号+登陆密码</li>
+</ul>
+<h4 id="定义操作"><a href="#定义操作" class="headerlink" title="定义操作"></a>定义操作</h4><p>操作定义了某个对象的行为，粗略的划分为4种：</p>
+<ul>
+<li><ol>
+<li>以某种方式操作数据(例如：添加，删除，重新格式化，选择)</li>
+</ol>
+</li>
+<li><p>2.执行计算的操作</p>
+</li>
+<li><p>3.请求某个对象的状态的操作</p>
+</li>
+<li><p>4.监视某个对象发生某个控制事件的操作</p>
+</li>
+</ul>
+<h4 id="类-职责-协作者建模"><a href="#类-职责-协作者建模" class="headerlink" title="类-职责-协作者建模"></a>类-职责-协作者建模</h4><p>Class-Responsibility-Collaborator,CRC卡</p>
+<p><img src="https://i.loli.net/2019/05/16/5cdcc06adb2ef45071.jpg" alt></p>
+<p>类：</p>
+<ul>
+<li><p>1.实体类</p>
+</li>
+<li><p>2.边界类</p>
+</li>
+<li><p>3.控制类</p>
+</li>
+</ul>
+<p>职责：</p>
+<ul>
+<li><p>1.智能系统应分布在所有类中以求最佳地满足问题的需求</p>
+</li>
+<li><p>2.每个职责的说明应尽可能具有普遍性</p>
+</li>
+<li><p>3.信息和与之相关的行为应放在同一个类中</p>
+</li>
+<li><p>4.某个事物的信息应局限于一个类中而不要分布在多个类中</p>
+</li>
+<li><p>5.适合时，职责应由相关类分享</p>
+</li>
+</ul>
+<p>协作：</p>
+<ul>
+<li>是客户和服务器之间契约的具体实现，识别协作的方法是通过确认类本身是否实现自身的每个职责，如果不能，就需要和其他类协作</li>
+</ul>
+<p>CRC的使用：</p>
+<ul>
+<li>CRC的使用很简单，就是先有一种主CRC卡，然后到达相应的职责时会有对应的协作者，然后再由这个协作者的类进行分析，依次类推。</li>
+</ul>
+<h4 id="关联和依赖"><a href="#关联和依赖" class="headerlink" title="关联和依赖"></a>关联和依赖</h4><p>这个关联说的有些想数据库中的E-R关系图，就一对一，一对多，多对多的关系</p>
+<p>依赖，依赖是一个类获得另外一个类的请求后才能执行其对应的功能</p>
+<h4 id="分析包"><a href="#分析包" class="headerlink" title="分析包"></a>分析包</h4><p>类似于java中的“package”</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/images/wechat.png" alt="王辉 wechat" style="width: 200px; max-width: 100%;">
+  <div>有钱的捧个钱场，没钱的捧个人场</div>
+</div>
+
+    
+
+    
+      
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/需求建模/" rel="tag"><i class="fa fa-tag"></i> 需求建模</a>
+          
+            <a href="/tags/场景/" rel="tag"><i class="fa fa-tag"></i> 场景</a>
+          
+            <a href="/tags/信息/" rel="tag"><i class="fa fa-tag"></i> 信息</a>
+          
+            <a href="/tags/类/" rel="tag"><i class="fa fa-tag"></i> 类</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/15/2019-05-15-05-软件工程/" rel="next" title="软件工程-05_理解需求">
+                <i class="fa fa-chevron-left"></i> 软件工程-05_理解需求
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/22/2019-05-21_Vagrant/" rel="prev" title="Vagrant-自动部署虚拟机、JDK、Mysql">
+                Vagrant-自动部署虚拟机、JDK、Mysql <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/one.gif" alt="王辉">
+            
+              <p class="site-author-name" itemprop="name">王辉</p>
+              <div class="site-description motion-element" itemprop="description">不知名程序猿</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">57</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">102</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/wanghui2019" title="GitHub &rarr; https://github.com/wanghui2019" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#需求建模：场景、信息、与类分析"><span class="nav-number">1.</span> <span class="nav-text">需求建模：场景、信息、与类分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#需求分析"><span class="nav-number">1.1.</span> <span class="nav-text">需求分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#总体目标和原理"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">总体目标和原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析的经验原则"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">分析的经验原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#域分析"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">域分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立模型的方法"><span class="nav-number">1.1.0.4.</span> <span class="nav-text">建立模型的方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于场景的建模"><span class="nav-number">1.2.</span> <span class="nav-text">基于场景的建模</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#新建初始用例"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">新建初始用例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#细化初始用例"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">细化初始用例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写正规的用例"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">编写正规的用例</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#补充用例的UML模型"><span class="nav-number">1.3.</span> <span class="nav-text">补充用例的UML模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据建模概念"><span class="nav-number">1.4.</span> <span class="nav-text">数据建模概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据对象"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">数据对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据属性"><span class="nav-number">1.4.0.2.</span> <span class="nav-text">数据属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关系"><span class="nav-number">1.4.0.3.</span> <span class="nav-text">关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于类的建模"><span class="nav-number">1.5.</span> <span class="nav-text">基于类的建模</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#识别分析类"><span class="nav-number">1.5.0.1.</span> <span class="nav-text">识别分析类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#描述属性"><span class="nav-number">1.5.0.2.</span> <span class="nav-text">描述属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义操作"><span class="nav-number">1.5.0.3.</span> <span class="nav-text">定义操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类-职责-协作者建模"><span class="nav-number">1.5.0.4.</span> <span class="nav-text">类-职责-协作者建模</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关联和依赖"><span class="nav-number">1.5.0.5.</span> <span class="nav-text">关联和依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析包"><span class="nav-number">1.5.0.6.</span> <span class="nav-text">分析包</span></a></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王辉</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/clicklove.js"></script>
+
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+
+
