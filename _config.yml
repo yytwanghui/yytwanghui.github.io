@@ -84,9 +84,14 @@ theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
+# deploy:
+#   type: git
+#   repo: git@152.136.26.111:/home/git/hexoBlog.git
+#   branch: master
+
 deploy:
   type: git
-  repo: git@152.136.26.111:/home/git/hexoBlog.git
+  repo: git@github.com:yytwanghui/yytwanghui.github.io.git
   branch: master
 
 #二次元
